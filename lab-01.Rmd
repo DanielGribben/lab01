@@ -213,17 +213,18 @@ visitors %>%
 _Observe in question 6 that the mean statistics across all settings are much larger than the corresponding median statistics. Discuss in your group what this suggests about the data._
 
 **Write your answer here**
+there are large outliers with greater number of visitors perhaps the upper 25% is much greater than the others
 
 ## Question 8
 
 ### Exercise l.
 
 ```{r Q8}
-#visitors %>% 
-#  summarise(
-#     __________,
-#     __________,
-#  )
+visitors %>% 
+  summarise(
+    max(n_2021, na.rm = TRUE),
+    min(n_2021, na.rm = TRUE)
+     )
 ```
 
 ## Question 9
@@ -254,8 +255,8 @@ _How many tourist attractions are there in each of the 4 nations? From this, dis
 
 
 ```{r Ex_l}
-#________ %>%
-#  ______(_______)
+visitors_with_nations %>%
+  count(nation)
 ```
 
 
@@ -268,7 +269,15 @@ _Within each of the 4 nations, what is the proportion of tourist attractions tha
 
 ```{r Ex_m}
 # Write your code here
-
+#n<-visitors_with_nations%>%
+#  group_by(nation)%>%
+#  filter(nation == "England" | nation == "Scotland" | nation == "Nothern Ireland")%>%
+#  count()
+  
+#visitors_with_nations %>%
+#  group_by(nation)%>%
+#  filter(admission == "Free")%>%
+#  count()/n
 
 ```
 
