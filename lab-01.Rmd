@@ -269,15 +269,15 @@ _Within each of the 4 nations, what is the proportion of tourist attractions tha
 
 ```{r Ex_m}
 # Write your code here
-#n<-visitors_with_nations%>%
-#  group_by(nation)%>%
-#  filter(nation == "England" | nation == "Scotland" | nation == "Nothern Ireland")%>%
-#  count()
-  
-#visitors_with_nations %>%
-#  group_by(nation)%>%
-#  filter(admission == "Free")%>%
-#  count()/n
+
+
+
+visitors_with_nations %>%
+  group_by(nation)%>%
+  count(admission)%>%
+  mutate(pct_free = 100 * n/sum(n))%>%
+  filter(admission == "Free")
+
 
 ```
 
@@ -288,7 +288,14 @@ _Calculate the percentage change in visitor admissions from 2021 to 2022. Of the
 
 ```{r Ex_n}
 # Write your code here
-
+visitors_with_nations%>%
+  filter(nation == "Scotland")%>%
+  mutate(pct_change = 100*((n_2022-n_2021)/n_2021))%>%
+  group_by(admission)%>%
+  summarise(
+    mean_pct_change = mean(pct_change, na.rm = TRUE)
+  )%>%
+  arrange(mean_pct_change)
 
 
 ```

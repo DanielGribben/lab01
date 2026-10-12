@@ -11,7 +11,7 @@
 
 <meta name="author" content="Daniel Gribben" />
 
-<meta name="date" content="2026-10-02" />
+<meta name="date" content="2026-10-12" />
 
 <title>Lab 01 - UK Attractions</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">Lab 01 - UK Attractions</h1>
 <h4 class="author">Daniel Gribben</h4>
-<h4 class="date">2026-10-02</h4>
+<h4 class="date">2026-10-12</h4>
 
 </div>
 
@@ -685,15 +685,21 @@ inter-quartile estimates are.</em></p>
 <p><em>Within each of the 4 nations, what is the proportion of tourist
 attractions that have free admission for all visitors?</em></p>
 <pre class="r"><code># Write your code here
-#n&lt;-visitors_with_nations%&gt;%
-#  group_by(nation)%&gt;%
-#  filter(nation == &quot;England&quot; | nation == &quot;Scotland&quot; | nation == &quot;Nothern Ireland&quot;)%&gt;%
-#  count()
-  
-#visitors_with_nations %&gt;%
-#  group_by(nation)%&gt;%
-#  filter(admission == &quot;Free&quot;)%&gt;%
-#  count()/n</code></pre>
+
+
+
+visitors_with_nations %&gt;%
+  group_by(nation)%&gt;%
+  count(admission)%&gt;%
+  mutate(pct_free = 100 * n/sum(n))%&gt;%
+  filter(admission == &quot;Free&quot;)</code></pre>
+<pre><code>## # A tibble: 3 × 4
+## # Groups:   nation [3]
+##   nation           admission     n pct_free
+##   &lt;chr&gt;            &lt;chr&gt;     &lt;int&gt;    &lt;dbl&gt;
+## 1 England          Free         93     38.8
+## 2 Northern Ireland Free          1     11.1
+## 3 Scotland         Free         34     35.1</code></pre>
 </div>
 <div id="exercise-o." class="section level3">
 <h3>Exercise o.</h3>
@@ -701,7 +707,21 @@ attractions that have free admission for all visitors?</em></p>
 to 2022. Of the tourist attractions in Scotland, sort into increasing
 numerical order the types of admission charges based on the mean
 percentage change in visitor numbers.</em></p>
-<pre class="r"><code># Write your code here</code></pre>
+<pre class="r"><code># Write your code here
+visitors_with_nations%&gt;%
+  filter(nation == &quot;Scotland&quot;)%&gt;%
+  mutate(pct_change = 100*((n_2022-n_2021)/n_2021))%&gt;%
+  group_by(admission)%&gt;%
+  summarise(
+    mean_pct_change = mean(pct_change, na.rm = TRUE)
+  )%&gt;%
+  arrange(mean_pct_change)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   admission mean_pct_change
+##   &lt;chr&gt;               &lt;dbl&gt;
+## 1 Charged              4.65
+## 2 Members            138.  
+## 3 Free               303.</code></pre>
 </div>
 </div>
 
